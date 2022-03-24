@@ -44,7 +44,7 @@ additionFactor: ((MAS | MENOS) multiplicationExpression)*;
 
 multiplicationExpression: elementExpression multiplicationFactor;
 
-multiplicationFactor: (PIZQ MULT | DIV PDER elementExpression)*;
+multiplicationFactor: (( MULT | DIV ) elementExpression)*;
 
 elementExpression: primitiveExpression elementAccess;
 
@@ -54,7 +54,7 @@ expressionList: expression moreExpressions|;
 
 moreExpressions: (COMA expression)*;
 
-primitiveExpression: INTEGER | FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|)|PIZQ expression
+primitiveExpression: '-'?INTEGER | '-'?FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|)|PIZQ expression
 PDER | listExpression | LEN PIZQ expression PDER;
 
 listExpression: P2IZQ expressionList P2DER;
