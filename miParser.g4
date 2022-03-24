@@ -14,7 +14,7 @@ argList: IDENTIFIER (COMA IDENTIFIER)*;
 
 moreArgs: (COMA IDENTIFIER)*;
 
-ifStatement: IF expression DOSPUNT sequence ELSE sequence;
+ifStatement: IF expression DOSPUNT sequence (ELSE?) sequence;
 
 whileStatement: WHILE expression DOSPUNT sequence;
 
@@ -40,7 +40,7 @@ comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression
 
 additionExpression: multiplicationExpression additionFactor;
 
-additionFactor: ((MAS | MENOS) multiplicationExpression)*; 
+additionFactor: ((MAS | MENOS) multiplicationExpression)*;
 
 multiplicationExpression: elementExpression multiplicationFactor;
 
