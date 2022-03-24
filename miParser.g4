@@ -10,13 +10,13 @@ expressionStatement;
 
 defStatement: DEF IDENTIFIER (argList) DOSPUNT sequence;
 
-argList: IDENTIFIER moreArgs; //Incompleto
+argList: IDENTIFIER (COMA IDENTIFIER)*;
 
 moreArgs: (COMA IDENTIFIER)*;
 
 ifStatement: IF expression DOSPUNT sequence ELSE sequence;
 
-whileStatement: WHILE expresion DOSPUNT sequence;
+whileStatement: WHILE expression DOSPUNT sequence;
 
 forStatement: FOR expression IN expressionList DOSPUNT sequence;
 
@@ -36,11 +36,11 @@ moreStatements: statement moreStatements*;
 
 expression: additionExpression comparison;
 
-comparison: PIZQ MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL PDER; //Parentesis?
+comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression)*;
 
 additionExpression: multiplicationExpression additionFactor;
 
-additionFactor: (PIZQ MAS | MENOS PDER multiplicationExpression)*; //Parentesis?
+additionFactor: ((MAS | MENOS) multiplicationExpression)*; 
 
 multiplicationExpression: elementExpression multiplicationFactor;
 
@@ -50,19 +50,20 @@ elementExpression: primitiveExpression elementAccess;
 
 elementAccess: (P2IZQ expression P2DER)*;
 
-expressionList: ?; //Incompleto
+expressionList: expression moreExpressions|;
 
 moreExpressions: (COMA expression)*;
 
-primitiveExpression: INTEGER | FLOAT | CHARCONST | STRING | IDENTIFIER ; //Incompleto
+primitiveExpression: INTEGER | FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|)|PIZQ expression
+PDER | listExpression | LEN PIZQ expression PDER;
 
 listExpression: P2IZQ expressionList P2DER;
 
 
 
 
-statement: def identifier (  identifier Arglist | //Epsilon    ) : INDENT MoreStatements DEDENT
-;
+//statement: def identifier (  identifier Arglist | //Epsilon    ) : INDENT MoreStatements DEDENT
+//;
 
 //simbolos
 PIZQ : '(' ;
