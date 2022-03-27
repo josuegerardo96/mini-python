@@ -2,6 +2,27 @@ grammar miParser;
 
 tokens { INDENT , DEDENT }
 
+@lexer::header{
+from antlr_denter.DenterHelper import DenterHelper
+from miParserParser import miParserParser
+}
+@lexer::members {
+class MyCoolDenter(DenterHelper):
+    def __init__(self, lexer, nl_token, indent_token, dedent_token, ignore_eof):
+        super().__init__(nl_token, indent_token, dedent_token, ignore_eof)
+        self.lexer: miParserLexer = lexer
+
+    def pull_token(self):
+        return super(miParserLexer, self.lexer).nextToken()
+
+denter = None
+
+def nextToken(self):
+    if not self.denter:
+        self.denter = self.MyCoolDenter(self, self.NEWLINE, miParserParser.INDENT, miParserParser.DEDENT, False)
+    return self.denter.next_token()
+}
+
 program : statement+;
 
 statement: defStatement | ifStatement |returnStatement | printStatement |
@@ -103,12 +124,11 @@ COMMENTBLOCK : '"""' .*? '"""' ; //probar (adaptado del String)
 STRING : '"' .*? '"' ; //probar
 SINGCOMMENT: COMMENT;
 
-
+fragment COMMENT : '#' ~[\r\n\f]*;
 fragment DIGIT : [0-9];
 fragment LETTER : '_'|[a-z];
 fragment SINGLECHARACTER:	~['\\\r\n]; //r return / n enter
 fragment ESCAPESEQUENCE 	:	'\\' [btnfr"'\\];
-fragment COMMENT : '#' ~[\r\n\f]*;
 
 
 
