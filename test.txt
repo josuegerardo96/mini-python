@@ -1,1 +1,10 @@
-#x=1
+print ("Hello world!")
+#hello
+
+“””
+
+Ejemplo de prueba
+
+para Analisis Sintactico
+
+“””

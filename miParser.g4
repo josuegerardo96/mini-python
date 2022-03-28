@@ -119,21 +119,20 @@ LEN : 'len';
 IDENTIFIER : LETTER (LETTER | DIGIT)*;
 INTEGER : DIGIT+;
 FLOAT: DIGIT + '.'  DIGIT+; //Describirlo en la documentacion
+COMMENTBLOCK : '"""' .*? '"""' ->skip; //probar (adaptado del String)
 CHARCONST : '\'' (SINGLECHARACTER | ESCAPESEQUENCE) '\''; //probar
-COMMENTBLOCK : '"""' .*? '"""' ; //probar (adaptado del String)
 STRING : '"' .*? '"' ; //probar
-SINGCOMMENT: COMMENT;
 
-fragment COMMENT : '#' ~[\r\n\f]*;
+
 fragment DIGIT : [0-9];
-fragment LETTER : '_'|[a-z];
+fragment LETTER : '_'|[a-z]|[A-Z];
 fragment SINGLECHARACTER:	~['\\\r\n]; //r return / n enter
 fragment ESCAPESEQUENCE 	:	'\\' [btnfr"'\\];
 
 
 
 NEWLINE: ('\r'? '\n' (' ' | '\t')*); //For tabs just switch out ' '* with '\t'*
-
+SINGCOMMENT: '#' ~[\r\n\f]*->skip;
 WS  :   [ +\r\n\t] -> skip ;
 
 /**Referencias

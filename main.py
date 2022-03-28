@@ -13,5 +13,6 @@ def main():
     stream = CommonTokenStream(lexer)
     parser = miParserParser(stream)
     tree = parser.program()
+    print(tree.toStringTree(None))
 if __name__ == '__main__':
     main()
