@@ -1,10 +1,13 @@
-print ("Hello world!")
 #hello
 
-“””
+#Calcular factorial
 
-Ejemplo de prueba
+def calcular():
+    print("Hello")
 
-para Analisis Sintactico
-
-“””
+def calcularFac(num):
+    if (num < 1):
+        num_aux = 1
+    else:
+        num_aux = num * (calcularFac(num-1))
+return num_aux

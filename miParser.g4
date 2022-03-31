@@ -29,13 +29,13 @@ statement: defStatement | ifStatement |returnStatement | printStatement |
 whileStatement | forStatement | assignStatement | functionCallStatement |
 expressionStatement;
 
-defStatement: DEF IDENTIFIER (argList) DOSPUNT sequence;
+defStatement: DEF IDENTIFIER PIZQ (argList?) PDER DOSPUNT sequence;
 
 argList: IDENTIFIER (COMA IDENTIFIER)*;
 
 moreArgs: (COMA IDENTIFIER)*;
 
-ifStatement: IF expression DOSPUNT sequence (ELSE?) sequence;
+ifStatement: IF expression DOSPUNT sequence (ELSE DOSPUNT sequence)?;
 
 whileStatement: WHILE expression DOSPUNT sequence;
 
@@ -57,7 +57,7 @@ moreStatements: statement moreStatements*;
 
 expression: additionExpression comparison;
 
-comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression)*;
+comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression)* ;
 
 additionExpression: multiplicationExpression additionFactor;
 
@@ -71,11 +71,11 @@ elementExpression: primitiveExpression elementAccess;
 
 elementAccess: (P2IZQ expression P2DER)*;
 
-expressionList: expression moreExpressions|;
+expressionList: expression moreExpressions;
 
 moreExpressions: (COMA expression)*;
 
-primitiveExpression: '-'?INTEGER | '-'?FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|)|PIZQ expression
+primitiveExpression: '-'?INTEGER | '-'?FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|) | PIZQ expression
 PDER | listExpression | LEN PIZQ expression PDER;
 
 listExpression: P2IZQ expressionList P2DER;
@@ -138,4 +138,8 @@ WS  :   [ +\r\n\t] -> skip ;
 /**Referencias
 http://kedizheng.com/2019/03/31/learning-antlr-4-building-grammar/
 https://stackabuse.com/commenting-python-code/
+Recognizer es instancia de Scanner o Parser
+Si la lista es vacia= compilacion exitosa
+Si es llena= compilacion fallida
 **/
+
