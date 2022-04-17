@@ -23,62 +23,75 @@ def nextToken(self):
     return self.denter.next_token()
 }
 
-program : statement+;
+program : statement+                                                                         #programAST;
 
 statement: defStatement | ifStatement |returnStatement | printStatement |
 whileStatement | forStatement | assignStatement | functionCallStatement |
 expressionStatement;
 
-defStatement: DEF IDENTIFIER PIZQ (argList?) PDER DOSPUNT sequence;
+defStatement: DEF IDENTIFIER PIZQ (argList?) PDER DOSPUNT sequence                           #defStatementAST;
 
-argList: IDENTIFIER (COMA IDENTIFIER)*;
+argList: IDENTIFIER (COMA IDENTIFIER)*      #argListAST;
 
-moreArgs: (COMA IDENTIFIER)*;
+moreArgs: (COMA IDENTIFIER)*                #moreArgsAST;
 
-ifStatement: IF expression DOSPUNT sequence (ELSE DOSPUNT sequence)?;
+ifStatement: IF expression DOSPUNT sequence (ELSE DOSPUNT sequence)?                         #ifStatementAST;
 
-whileStatement: WHILE expression DOSPUNT sequence;
+whileStatement: WHILE expression DOSPUNT sequence                                            #whileStatementAST;
 
-forStatement: FOR expression IN expressionList DOSPUNT sequence;
+forStatement: FOR expression IN expressionList DOSPUNT sequence                              #forStatementAST;
 
-returnStatement: RETURN expression NEWLINE;
+returnStatement: RETURN expression NEWLINE                                                   #returnStatementAST;
 
-printStatement: PRINT expression NEWLINE;
+printStatement: PRINT expression NEWLINE                                                     #printStatementAST;
 
-assignStatement: IDENTIFIER ASIGNACION expression NEWLINE;
+assignStatement: IDENTIFIER ASIGNACION expression NEWLINE                                    #assignStatementAST;
 
-functionCallStatement: primitiveExpression PIZQ expressionList PDER NEWLINE;
+functionCallStatement: primitiveExpression PIZQ expressionList PDER NEWLINE                  #functionCallStatementAST;
 
-expressionStatement: expressionList NEWLINE;
+expressionStatement: expressionList NEWLINE                                                  #expressionStatementAST;
 
-sequence: INDENT moreStatements DEDENT;
+sequence: INDENT moreStatements DEDENT                                                       #sequenceAST;
 
-moreStatements: statement moreStatements*;
+moreStatements: statement moreStatements*                                                    #moreStatementsAST;
 
-expression: additionExpression comparison;
+expression: additionExpression comparison                                                    #expressionAST;
 
-comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression)* ;
+comparison: ((MENOR | MAYOR | MAYORIGUAL | MENORIGUAL | IGUAL)additionExpression)*           #comparisonAST;
 
-additionExpression: multiplicationExpression additionFactor;
+additionExpression: multiplicationExpression additionFactor                                  #additionExpressionAST;
 
-additionFactor: ((MAS | MENOS) multiplicationExpression)*;
+additionFactor: ((MAS | MENOS) multiplicationExpression)*                                    #additionFactorAST;
 
-multiplicationExpression: elementExpression multiplicationFactor;
+multiplicationExpression: elementExpression multiplicationFactor                             #multiplicationExpressionAST;
 
-multiplicationFactor: (( MULT | DIV ) elementExpression)*;
+multiplicationFactor: (( MULT | DIV ) elementExpression)*                                    #multiplicationFactorAST;
 
-elementExpression: primitiveExpression elementAccess;
+elementExpression: primitiveExpression elementAccess                                         #elementExpressionAST;
 
-elementAccess: (P2IZQ expression P2DER)*;
+elementAccess: (P2IZQ expression P2DER)*                                                     #elementAccessAST;
 
-expressionList: expression moreExpressions;
+expressionList: expression moreExpressions                                                   #expressionListAST;
 
-moreExpressions: (COMA expression)*;
+moreExpressions: (COMA expression)*                                                          #moreExpressionsAST;
 
-primitiveExpression: '-'?INTEGER | '-'?FLOAT | CHARCONST | STRING | IDENTIFIER (PIZQ expressionList PDER|) | PIZQ expression
-PDER | listExpression | LEN PIZQ expression PDER;
+primitiveExpression: '-'?INTEGER                                                             #integerPrimitiveExpressionAST
 
-listExpression: P2IZQ expressionList P2DER;
+                     | '-'?FLOAT                                                             #floatPrimitiveExpressionAST
+
+                     | CHARCONST                                                             #charconstPrimitiveExpressionAST
+
+                     | STRING                                                                #stringPrimitiveExpressionAST
+
+                     | IDENTIFIER (PIZQ expressionList PDER|)                                #identifierPrimitiveExpressionAST
+
+                     | PIZQ expression PDER                                                  #parenthesisPrimitiveExpressionAST
+
+                     | listExpression                                                        #listexpressionPrimitiveExpressionAST
+
+                     | LEN PIZQ expression PDER                                              #lenparenthesisPrimitiveExpressionAST;
+
+listExpression: P2IZQ expressionList P2DER                                                   #listExpressionAST;
 
 
 

@@ -224,6 +224,22 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_program
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ProgramASTContext(ProgramContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ProgramContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def statement(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.StatementContext)
@@ -231,9 +247,11 @@ class miParserParser ( Parser ):
                 return self.getTypedRuleContext(miParserParser.StatementContext,i)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_program
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgramAST" ):
+                return visitor.visitProgramAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -243,6 +261,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 0, self.RULE_program)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.ProgramASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 55 
             self._errHandler.sync(self)
@@ -310,6 +329,12 @@ class miParserParser ( Parser ):
 
         def getRuleIndex(self):
             return miParserParser.RULE_statement
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -393,32 +418,44 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_defStatement
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class DefStatementASTContext(DefStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.DefStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def DEF(self):
             return self.getToken(miParserParser.DEF, 0)
-
         def IDENTIFIER(self):
             return self.getToken(miParserParser.IDENTIFIER, 0)
-
         def PIZQ(self):
             return self.getToken(miParserParser.PIZQ, 0)
-
         def PDER(self):
             return self.getToken(miParserParser.PDER, 0)
-
         def DOSPUNT(self):
             return self.getToken(miParserParser.DOSPUNT, 0)
-
         def sequence(self):
             return self.getTypedRuleContext(miParserParser.SequenceContext,0)
-
 
         def argList(self):
             return self.getTypedRuleContext(miParserParser.ArgListContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_defStatement
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefStatementAST" ):
+                return visitor.visitDefStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -428,6 +465,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 4, self.RULE_defStatement)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.DefStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 70
             self.match(miParserParser.DEF)
@@ -466,21 +504,38 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_argList
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ArgListASTContext(ArgListContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ArgListContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def IDENTIFIER(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.IDENTIFIER)
             else:
                 return self.getToken(miParserParser.IDENTIFIER, i)
-
         def COMA(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.COMA)
             else:
                 return self.getToken(miParserParser.COMA, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_argList
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArgListAST" ):
+                return visitor.visitArgListAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -490,6 +545,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 6, self.RULE_argList)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.ArgListASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 80
             self.match(miParserParser.IDENTIFIER)
@@ -521,21 +577,38 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_moreArgs
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreArgsASTContext(MoreArgsContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.MoreArgsContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def COMA(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.COMA)
             else:
                 return self.getToken(miParserParser.COMA, i)
-
         def IDENTIFIER(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.IDENTIFIER)
             else:
                 return self.getToken(miParserParser.IDENTIFIER, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_moreArgs
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoreArgsAST" ):
+                return visitor.visitMoreArgsAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -545,6 +618,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_moreArgs)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.MoreArgsASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 92
             self._errHandler.sync(self)
@@ -574,32 +648,46 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_ifStatement
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class IfStatementASTContext(IfStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.IfStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def IF(self):
             return self.getToken(miParserParser.IF, 0)
-
         def expression(self):
             return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
 
         def DOSPUNT(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.DOSPUNT)
             else:
                 return self.getToken(miParserParser.DOSPUNT, i)
-
         def sequence(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.SequenceContext)
             else:
                 return self.getTypedRuleContext(miParserParser.SequenceContext,i)
 
-
         def ELSE(self):
             return self.getToken(miParserParser.ELSE, 0)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_ifStatement
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfStatementAST" ):
+                return visitor.visitIfStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -609,6 +697,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 10, self.RULE_ifStatement)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.IfStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 95
             self.match(miParserParser.IF)
@@ -646,23 +735,38 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def WHILE(self):
-            return self.getToken(miParserParser.WHILE, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
-
-        def DOSPUNT(self):
-            return self.getToken(miParserParser.DOSPUNT, 0)
-
-        def sequence(self):
-            return self.getTypedRuleContext(miParserParser.SequenceContext,0)
-
 
         def getRuleIndex(self):
             return miParserParser.RULE_whileStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class WhileStatementASTContext(WhileStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.WhileStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def WHILE(self):
+            return self.getToken(miParserParser.WHILE, 0)
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+
+        def DOSPUNT(self):
+            return self.getToken(miParserParser.DOSPUNT, 0)
+        def sequence(self):
+            return self.getTypedRuleContext(miParserParser.SequenceContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWhileStatementAST" ):
+                return visitor.visitWhileStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -671,6 +775,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.WhileStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_whileStatement)
         try:
+            localctx = miParserParser.WhileStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 104
             self.match(miParserParser.WHILE)
@@ -696,30 +801,43 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def FOR(self):
-            return self.getToken(miParserParser.FOR, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
-
-        def IN(self):
-            return self.getToken(miParserParser.IN, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
-
-
-        def DOSPUNT(self):
-            return self.getToken(miParserParser.DOSPUNT, 0)
-
-        def sequence(self):
-            return self.getTypedRuleContext(miParserParser.SequenceContext,0)
-
 
         def getRuleIndex(self):
             return miParserParser.RULE_forStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ForStatementASTContext(ForStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ForStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def FOR(self):
+            return self.getToken(miParserParser.FOR, 0)
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+
+        def IN(self):
+            return self.getToken(miParserParser.IN, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+        def DOSPUNT(self):
+            return self.getToken(miParserParser.DOSPUNT, 0)
+        def sequence(self):
+            return self.getTypedRuleContext(miParserParser.SequenceContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForStatementAST" ):
+                return visitor.visitForStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -728,6 +846,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ForStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 14, self.RULE_forStatement)
         try:
+            localctx = miParserParser.ForStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 109
             self.match(miParserParser.FOR)
@@ -757,19 +876,35 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def RETURN(self):
-            return self.getToken(miParserParser.RETURN, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
-
-        def NEWLINE(self):
-            return self.getToken(miParserParser.NEWLINE, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_returnStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ReturnStatementASTContext(ReturnStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ReturnStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def RETURN(self):
+            return self.getToken(miParserParser.RETURN, 0)
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+
+        def NEWLINE(self):
+            return self.getToken(miParserParser.NEWLINE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReturnStatementAST" ):
+                return visitor.visitReturnStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -778,6 +913,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ReturnStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 16, self.RULE_returnStatement)
         try:
+            localctx = miParserParser.ReturnStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 116
             self.match(miParserParser.RETURN)
@@ -801,19 +937,35 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def PRINT(self):
-            return self.getToken(miParserParser.PRINT, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
-
-        def NEWLINE(self):
-            return self.getToken(miParserParser.NEWLINE, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_printStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class PrintStatementASTContext(PrintStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrintStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def PRINT(self):
+            return self.getToken(miParserParser.PRINT, 0)
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+
+        def NEWLINE(self):
+            return self.getToken(miParserParser.NEWLINE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrintStatementAST" ):
+                return visitor.visitPrintStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -822,6 +974,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.PrintStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_printStatement)
         try:
+            localctx = miParserParser.PrintStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 120
             self.match(miParserParser.PRINT)
@@ -845,22 +998,37 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def IDENTIFIER(self):
-            return self.getToken(miParserParser.IDENTIFIER, 0)
-
-        def ASIGNACION(self):
-            return self.getToken(miParserParser.ASIGNACION, 0)
-
-        def expression(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
-
-        def NEWLINE(self):
-            return self.getToken(miParserParser.NEWLINE, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_assignStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class AssignStatementASTContext(AssignStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.AssignStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def IDENTIFIER(self):
+            return self.getToken(miParserParser.IDENTIFIER, 0)
+        def ASIGNACION(self):
+            return self.getToken(miParserParser.ASIGNACION, 0)
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
+
+        def NEWLINE(self):
+            return self.getToken(miParserParser.NEWLINE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignStatementAST" ):
+                return visitor.visitAssignStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -869,6 +1037,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.AssignStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 20, self.RULE_assignStatement)
         try:
+            localctx = miParserParser.AssignStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 124
             self.match(miParserParser.IDENTIFIER)
@@ -894,26 +1063,40 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def primitiveExpression(self):
-            return self.getTypedRuleContext(miParserParser.PrimitiveExpressionContext,0)
-
-
-        def PIZQ(self):
-            return self.getToken(miParserParser.PIZQ, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
-
-
-        def PDER(self):
-            return self.getToken(miParserParser.PDER, 0)
-
-        def NEWLINE(self):
-            return self.getToken(miParserParser.NEWLINE, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_functionCallStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class FunctionCallStatementASTContext(FunctionCallStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.FunctionCallStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def primitiveExpression(self):
+            return self.getTypedRuleContext(miParserParser.PrimitiveExpressionContext,0)
+
+        def PIZQ(self):
+            return self.getToken(miParserParser.PIZQ, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+        def PDER(self):
+            return self.getToken(miParserParser.PDER, 0)
+        def NEWLINE(self):
+            return self.getToken(miParserParser.NEWLINE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionCallStatementAST" ):
+                return visitor.visitFunctionCallStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -922,6 +1105,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.FunctionCallStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 22, self.RULE_functionCallStatement)
         try:
+            localctx = miParserParser.FunctionCallStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 129
             self.primitiveExpression()
@@ -949,16 +1133,33 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def expressionList(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
-
-
-        def NEWLINE(self):
-            return self.getToken(miParserParser.NEWLINE, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_expressionStatement
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ExpressionStatementASTContext(ExpressionStatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ExpressionStatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+        def NEWLINE(self):
+            return self.getToken(miParserParser.NEWLINE, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionStatementAST" ):
+                return visitor.visitExpressionStatementAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -967,6 +1168,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ExpressionStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 24, self.RULE_expressionStatement)
         try:
+            localctx = miParserParser.ExpressionStatementASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 135
             self.expressionList()
@@ -988,19 +1190,35 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def INDENT(self):
-            return self.getToken(miParserParser.INDENT, 0)
-
-        def moreStatements(self):
-            return self.getTypedRuleContext(miParserParser.MoreStatementsContext,0)
-
-
-        def DEDENT(self):
-            return self.getToken(miParserParser.DEDENT, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_sequence
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class SequenceASTContext(SequenceContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.SequenceContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def INDENT(self):
+            return self.getToken(miParserParser.INDENT, 0)
+        def moreStatements(self):
+            return self.getTypedRuleContext(miParserParser.MoreStatementsContext,0)
+
+        def DEDENT(self):
+            return self.getToken(miParserParser.DEDENT, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSequenceAST" ):
+                return visitor.visitSequenceAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1009,6 +1227,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.SequenceContext(self, self._ctx, self.state)
         self.enterRule(localctx, 26, self.RULE_sequence)
         try:
+            localctx = miParserParser.SequenceASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 138
             self.match(miParserParser.INDENT)
@@ -1032,9 +1251,24 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_moreStatements
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreStatementsASTContext(MoreStatementsContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.MoreStatementsContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def statement(self):
             return self.getTypedRuleContext(miParserParser.StatementContext,0)
-
 
         def moreStatements(self, i:int=None):
             if i is None:
@@ -1043,9 +1277,11 @@ class miParserParser ( Parser ):
                 return self.getTypedRuleContext(miParserParser.MoreStatementsContext,i)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_moreStatements
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoreStatementsAST" ):
+                return visitor.visitMoreStatementsAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1054,6 +1290,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.MoreStatementsContext(self, self._ctx, self.state)
         self.enterRule(localctx, 28, self.RULE_moreStatements)
         try:
+            localctx = miParserParser.MoreStatementsASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 142
             self.statement()
@@ -1084,17 +1321,34 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_expression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ExpressionASTContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def additionExpression(self):
             return self.getTypedRuleContext(miParserParser.AdditionExpressionContext,0)
-
 
         def comparison(self):
             return self.getTypedRuleContext(miParserParser.ComparisonContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_expression
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionAST" ):
+                return visitor.visitExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1103,6 +1357,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 30, self.RULE_expression)
         try:
+            localctx = miParserParser.ExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 149
             self.additionExpression()
@@ -1124,46 +1379,59 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_comparison
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ComparisonASTContext(ComparisonContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ComparisonContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def additionExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.AdditionExpressionContext)
             else:
                 return self.getTypedRuleContext(miParserParser.AdditionExpressionContext,i)
 
-
         def MENOR(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MENOR)
             else:
                 return self.getToken(miParserParser.MENOR, i)
-
         def MAYOR(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MAYOR)
             else:
                 return self.getToken(miParserParser.MAYOR, i)
-
         def MAYORIGUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MAYORIGUAL)
             else:
                 return self.getToken(miParserParser.MAYORIGUAL, i)
-
         def MENORIGUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MENORIGUAL)
             else:
                 return self.getToken(miParserParser.MENORIGUAL, i)
-
         def IGUAL(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.IGUAL)
             else:
                 return self.getToken(miParserParser.IGUAL, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_comparison
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitComparisonAST" ):
+                return visitor.visitComparisonAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1173,6 +1441,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 32, self.RULE_comparison)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.ComparisonASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 156
             self._errHandler.sync(self)
@@ -1207,17 +1476,34 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_additionExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class AdditionExpressionASTContext(AdditionExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.AdditionExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def multiplicationExpression(self):
             return self.getTypedRuleContext(miParserParser.MultiplicationExpressionContext,0)
-
 
         def additionFactor(self):
             return self.getTypedRuleContext(miParserParser.AdditionFactorContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_additionExpression
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdditionExpressionAST" ):
+                return visitor.visitAdditionExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1226,6 +1512,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.AdditionExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 34, self.RULE_additionExpression)
         try:
+            localctx = miParserParser.AdditionExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 159
             self.multiplicationExpression()
@@ -1247,28 +1534,44 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_additionFactor
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class AdditionFactorASTContext(AdditionFactorContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.AdditionFactorContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def multiplicationExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.MultiplicationExpressionContext)
             else:
                 return self.getTypedRuleContext(miParserParser.MultiplicationExpressionContext,i)
 
-
         def MAS(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MAS)
             else:
                 return self.getToken(miParserParser.MAS, i)
-
         def MENOS(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MENOS)
             else:
                 return self.getToken(miParserParser.MENOS, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_additionFactor
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAdditionFactorAST" ):
+                return visitor.visitAdditionFactorAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1278,6 +1581,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 36, self.RULE_additionFactor)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.AdditionFactorASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 166
             self._errHandler.sync(self)
@@ -1312,17 +1616,34 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_multiplicationExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MultiplicationExpressionASTContext(MultiplicationExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.MultiplicationExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def elementExpression(self):
             return self.getTypedRuleContext(miParserParser.ElementExpressionContext,0)
-
 
         def multiplicationFactor(self):
             return self.getTypedRuleContext(miParserParser.MultiplicationFactorContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_multiplicationExpression
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplicationExpressionAST" ):
+                return visitor.visitMultiplicationExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1331,6 +1652,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.MultiplicationExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 38, self.RULE_multiplicationExpression)
         try:
+            localctx = miParserParser.MultiplicationExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 169
             self.elementExpression()
@@ -1352,28 +1674,44 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_multiplicationFactor
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MultiplicationFactorASTContext(MultiplicationFactorContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.MultiplicationFactorContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def elementExpression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.ElementExpressionContext)
             else:
                 return self.getTypedRuleContext(miParserParser.ElementExpressionContext,i)
 
-
         def MULT(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.MULT)
             else:
                 return self.getToken(miParserParser.MULT, i)
-
         def DIV(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.DIV)
             else:
                 return self.getToken(miParserParser.DIV, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_multiplicationFactor
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMultiplicationFactorAST" ):
+                return visitor.visitMultiplicationFactorAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1383,6 +1721,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 40, self.RULE_multiplicationFactor)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.MultiplicationFactorASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 176
             self._errHandler.sync(self)
@@ -1417,17 +1756,34 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_elementExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ElementExpressionASTContext(ElementExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ElementExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def primitiveExpression(self):
             return self.getTypedRuleContext(miParserParser.PrimitiveExpressionContext,0)
-
 
         def elementAccess(self):
             return self.getTypedRuleContext(miParserParser.ElementAccessContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_elementExpression
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElementExpressionAST" ):
+                return visitor.visitElementExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1436,6 +1792,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ElementExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 42, self.RULE_elementExpression)
         try:
+            localctx = miParserParser.ElementExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 179
             self.primitiveExpression()
@@ -1457,18 +1814,32 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_elementAccess
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ElementAccessASTContext(ElementAccessContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ElementAccessContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def P2IZQ(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.P2IZQ)
             else:
                 return self.getToken(miParserParser.P2IZQ, i)
-
         def expression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.ExpressionContext)
             else:
                 return self.getTypedRuleContext(miParserParser.ExpressionContext,i)
-
 
         def P2DER(self, i:int=None):
             if i is None:
@@ -1476,9 +1847,11 @@ class miParserParser ( Parser ):
             else:
                 return self.getToken(miParserParser.P2DER, i)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_elementAccess
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitElementAccessAST" ):
+                return visitor.visitElementAccessAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1488,6 +1861,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 44, self.RULE_elementAccess)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.ElementAccessASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 188
             self._errHandler.sync(self)
@@ -1519,17 +1893,34 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_expressionList
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ExpressionListASTContext(ExpressionListContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ExpressionListContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def expression(self):
             return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
-
 
         def moreExpressions(self):
             return self.getTypedRuleContext(miParserParser.MoreExpressionsContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_expressionList
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpressionListAST" ):
+                return visitor.visitExpressionListAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1538,6 +1929,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ExpressionListContext(self, self._ctx, self.state)
         self.enterRule(localctx, 46, self.RULE_expressionList)
         try:
+            localctx = miParserParser.ExpressionListASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 191
             self.expression()
@@ -1559,12 +1951,27 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_moreExpressions
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class MoreExpressionsASTContext(MoreExpressionsContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.MoreExpressionsContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def COMA(self, i:int=None):
             if i is None:
                 return self.getTokens(miParserParser.COMA)
             else:
                 return self.getToken(miParserParser.COMA, i)
-
         def expression(self, i:int=None):
             if i is None:
                 return self.getTypedRuleContexts(miParserParser.ExpressionContext)
@@ -1572,9 +1979,11 @@ class miParserParser ( Parser ):
                 return self.getTypedRuleContext(miParserParser.ExpressionContext,i)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_moreExpressions
-
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMoreExpressionsAST" ):
+                return visitor.visitMoreExpressionsAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1584,6 +1993,7 @@ class miParserParser ( Parser ):
         self.enterRule(localctx, 48, self.RULE_moreExpressions)
         self._la = 0 # Token type
         try:
+            localctx = miParserParser.MoreExpressionsASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 198
             self._errHandler.sync(self)
@@ -1613,48 +2023,166 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_primitiveExpression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class IntegerPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def INTEGER(self):
             return self.getToken(miParserParser.INTEGER, 0)
-
         def MENOS(self):
             return self.getToken(miParserParser.MENOS, 0)
 
-        def FLOAT(self):
-            return self.getToken(miParserParser.FLOAT, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntegerPrimitiveExpressionAST" ):
+                return visitor.visitIntegerPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def CHARCONST(self):
-            return self.getToken(miParserParser.CHARCONST, 0)
 
-        def STRING(self):
-            return self.getToken(miParserParser.STRING, 0)
+    class ParenthesisPrimitiveExpressionASTContext(PrimitiveExpressionContext):
 
-        def IDENTIFIER(self):
-            return self.getToken(miParserParser.IDENTIFIER, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def PIZQ(self):
             return self.getToken(miParserParser.PIZQ, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
-
+        def expression(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
 
         def PDER(self):
             return self.getToken(miParserParser.PDER, 0)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParenthesisPrimitiveExpressionAST" ):
+                return visitor.visitParenthesisPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LenparenthesisPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def LEN(self):
+            return self.getToken(miParserParser.LEN, 0)
+        def PIZQ(self):
+            return self.getToken(miParserParser.PIZQ, 0)
         def expression(self):
             return self.getTypedRuleContext(miParserParser.ExpressionContext,0)
 
+        def PDER(self):
+            return self.getToken(miParserParser.PDER, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLenparenthesisPrimitiveExpressionAST" ):
+                return visitor.visitLenparenthesisPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ListexpressionPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def listExpression(self):
             return self.getTypedRuleContext(miParserParser.ListExpressionContext,0)
 
 
-        def LEN(self):
-            return self.getToken(miParserParser.LEN, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitListexpressionPrimitiveExpressionAST" ):
+                return visitor.visitListexpressionPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_primitiveExpression
 
+    class CharconstPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def CHARCONST(self):
+            return self.getToken(miParserParser.CHARCONST, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharconstPrimitiveExpressionAST" ):
+                return visitor.visitCharconstPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IdentifierPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def IDENTIFIER(self):
+            return self.getToken(miParserParser.IDENTIFIER, 0)
+        def PIZQ(self):
+            return self.getToken(miParserParser.PIZQ, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+        def PDER(self):
+            return self.getToken(miParserParser.PDER, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentifierPrimitiveExpressionAST" ):
+                return visitor.visitIdentifierPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class FloatPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def FLOAT(self):
+            return self.getToken(miParserParser.FLOAT, 0)
+        def MENOS(self):
+            return self.getToken(miParserParser.MENOS, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFloatPrimitiveExpressionAST" ):
+                return visitor.visitFloatPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class StringPrimitiveExpressionASTContext(PrimitiveExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.PrimitiveExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def STRING(self):
+            return self.getToken(miParserParser.STRING, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringPrimitiveExpressionAST" ):
+                return visitor.visitStringPrimitiveExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1668,6 +2196,7 @@ class miParserParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,15,self._ctx)
             if la_ == 1:
+                localctx = miParserParser.IntegerPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 202
                 self._errHandler.sync(self)
@@ -1682,6 +2211,7 @@ class miParserParser ( Parser ):
                 pass
 
             elif la_ == 2:
+                localctx = miParserParser.FloatPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 206
                 self._errHandler.sync(self)
@@ -1696,18 +2226,21 @@ class miParserParser ( Parser ):
                 pass
 
             elif la_ == 3:
+                localctx = miParserParser.CharconstPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 209
                 self.match(miParserParser.CHARCONST)
                 pass
 
             elif la_ == 4:
+                localctx = miParserParser.StringPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 210
                 self.match(miParserParser.STRING)
                 pass
 
             elif la_ == 5:
+                localctx = miParserParser.IdentifierPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 211
                 self.match(miParserParser.IDENTIFIER)
@@ -1730,6 +2263,7 @@ class miParserParser ( Parser ):
                 pass
 
             elif la_ == 6:
+                localctx = miParserParser.ParenthesisPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 219
                 self.match(miParserParser.PIZQ)
@@ -1740,12 +2274,14 @@ class miParserParser ( Parser ):
                 pass
 
             elif la_ == 7:
+                localctx = miParserParser.ListexpressionPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
                 self.state = 223
                 self.listExpression()
                 pass
 
             elif la_ == 8:
+                localctx = miParserParser.LenparenthesisPrimitiveExpressionASTContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
                 self.state = 224
                 self.match(miParserParser.LEN)
@@ -1774,19 +2310,35 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def P2IZQ(self):
-            return self.getToken(miParserParser.P2IZQ, 0)
-
-        def expressionList(self):
-            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
-
-
-        def P2DER(self):
-            return self.getToken(miParserParser.P2DER, 0)
 
         def getRuleIndex(self):
             return miParserParser.RULE_listExpression
 
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
+
+
+
+    class ListExpressionASTContext(ListExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.ListExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def P2IZQ(self):
+            return self.getToken(miParserParser.P2IZQ, 0)
+        def expressionList(self):
+            return self.getTypedRuleContext(miParserParser.ExpressionListContext,0)
+
+        def P2DER(self):
+            return self.getToken(miParserParser.P2DER, 0)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitListExpressionAST" ):
+                return visitor.visitListExpressionAST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1795,6 +2347,7 @@ class miParserParser ( Parser ):
         localctx = miParserParser.ListExpressionContext(self, self._ctx, self.state)
         self.enterRule(localctx, 52, self.RULE_listExpression)
         try:
+            localctx = miParserParser.ListExpressionASTContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
             self.state = 231
             self.match(miParserParser.P2IZQ)
