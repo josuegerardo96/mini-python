@@ -7,6 +7,7 @@ from miParserLexer import *
 from miParserParser import *
 from antlr4 import *
 from antlr4.error.ErrorListener import ErrorListener
+from AContextual import *
 
 
 class MyErrorListener( ErrorListener ):
@@ -58,5 +59,9 @@ def main():
     parser.addErrorListener(MyErrorListener())
 
     tree = parser.program()
+    v = AContextual()
+    v.visit(tree)
+
+
 if __name__ == '__main__':
     main()
