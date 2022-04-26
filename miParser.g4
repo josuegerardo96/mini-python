@@ -25,9 +25,15 @@ def nextToken(self):
 
 program : statement+                                                                         #programAST;
 
-statement: defStatement | ifStatement |returnStatement | printStatement |
-whileStatement | forStatement | assignStatement | functionCallStatement |
-expressionStatement;
+statement: defStatement             #defST
+          | ifStatement             #ifST
+          | returnStatement         #returnST
+          | printStatement          #printST
+          | whileStatement          #whileST
+          | forStatement            #forST
+          | assignStatement         #assignST
+          | functionCallStatement   #functionST
+          | expressionStatement     #expressionST;
 
 defStatement: DEF IDENTIFIER PIZQ (argList?) PDER DOSPUNT sequence                           #defStatementAST;
 

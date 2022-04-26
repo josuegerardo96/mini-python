@@ -14,8 +14,48 @@ class miParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by miParserParser#statement.
-    def visitStatement(self, ctx:miParserParser.StatementContext):
+    # Visit a parse tree produced by miParserParser#defST.
+    def visitDefST(self, ctx:miParserParser.DefSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#ifST.
+    def visitIfST(self, ctx:miParserParser.IfSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#returnST.
+    def visitReturnST(self, ctx:miParserParser.ReturnSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#printST.
+    def visitPrintST(self, ctx:miParserParser.PrintSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#whileST.
+    def visitWhileST(self, ctx:miParserParser.WhileSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#forST.
+    def visitForST(self, ctx:miParserParser.ForSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#assignST.
+    def visitAssignST(self, ctx:miParserParser.AssignSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#functionST.
+    def visitFunctionST(self, ctx:miParserParser.FunctionSTContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by miParserParser#expressionST.
+    def visitExpressionST(self, ctx:miParserParser.ExpressionSTContext):
         return self.visitChildren(ctx)
 
 

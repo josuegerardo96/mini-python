@@ -291,51 +291,167 @@ class miParserParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def defStatement(self):
-            return self.getTypedRuleContext(miParserParser.DefStatementContext,0)
+
+        def getRuleIndex(self):
+            return miParserParser.RULE_statement
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
-        def ifStatement(self):
-            return self.getTypedRuleContext(miParserParser.IfStatementContext,0)
 
+    class ReturnSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def returnStatement(self):
             return self.getTypedRuleContext(miParserParser.ReturnStatementContext,0)
 
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReturnST" ):
+                return visitor.visitReturnST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class PrintSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def printStatement(self):
             return self.getTypedRuleContext(miParserParser.PrintStatementContext,0)
 
 
-        def whileStatement(self):
-            return self.getTypedRuleContext(miParserParser.WhileStatementContext,0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrintST" ):
+                return visitor.visitPrintST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
-        def forStatement(self):
-            return self.getTypedRuleContext(miParserParser.ForStatementContext,0)
+    class AssignSTContext(StatementContext):
 
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def assignStatement(self):
             return self.getTypedRuleContext(miParserParser.AssignStatementContext,0)
 
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignST" ):
+                return visitor.visitAssignST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class WhileSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def whileStatement(self):
+            return self.getTypedRuleContext(miParserParser.WhileStatementContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitWhileST" ):
+                return visitor.visitWhileST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DefSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def defStatement(self):
+            return self.getTypedRuleContext(miParserParser.DefStatementContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefST" ):
+                return visitor.visitDefST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class FunctionSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
         def functionCallStatement(self):
             return self.getTypedRuleContext(miParserParser.FunctionCallStatementContext,0)
 
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionST" ):
+                return visitor.visitFunctionST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ExpressionSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def expressionStatement(self):
             return self.getTypedRuleContext(miParserParser.ExpressionStatementContext,0)
 
 
-        def getRuleIndex(self):
-            return miParserParser.RULE_statement
-
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitStatement" ):
-                return visitor.visitStatement(self)
+            if hasattr( visitor, "visitExpressionST" ):
+                return visitor.visitExpressionST(self)
             else:
                 return visitor.visitChildren(self)
 
+
+    class ForSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def forStatement(self):
+            return self.getTypedRuleContext(miParserParser.ForStatementContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitForST" ):
+                return visitor.visitForST(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IfSTContext(StatementContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a miParserParser.StatementContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def ifStatement(self):
+            return self.getTypedRuleContext(miParserParser.IfStatementContext,0)
+
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfST" ):
+                return visitor.visitIfST(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -348,54 +464,63 @@ class miParserParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,1,self._ctx)
             if la_ == 1:
+                localctx = miParserParser.DefSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 59
                 self.defStatement()
                 pass
 
             elif la_ == 2:
+                localctx = miParserParser.IfSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 60
                 self.ifStatement()
                 pass
 
             elif la_ == 3:
+                localctx = miParserParser.ReturnSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
                 self.state = 61
                 self.returnStatement()
                 pass
 
             elif la_ == 4:
+                localctx = miParserParser.PrintSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
                 self.state = 62
                 self.printStatement()
                 pass
 
             elif la_ == 5:
+                localctx = miParserParser.WhileSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
                 self.state = 63
                 self.whileStatement()
                 pass
 
             elif la_ == 6:
+                localctx = miParserParser.ForSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
                 self.state = 64
                 self.forStatement()
                 pass
 
             elif la_ == 7:
+                localctx = miParserParser.AssignSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
                 self.state = 65
                 self.assignStatement()
                 pass
 
             elif la_ == 8:
+                localctx = miParserParser.FunctionSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 8)
                 self.state = 66
                 self.functionCallStatement()
                 pass
 
             elif la_ == 9:
+                localctx = miParserParser.ExpressionSTContext(self, localctx)
                 self.enterOuterAlt(localctx, 9)
                 self.state = 67
                 self.expressionStatement()

@@ -1,22 +1,111 @@
 from miParserVisitor import *
 from miParserParser import *
+from TablaSimbolos import *
+from antlr4 import *
 
 class AContextual(miParserVisitor):
+    def __init__(self):
+        self.errorMsgs= []
+        self.laTabla= TablaSimbolos()
+        self.laTabla.openScope()
+
+    def hasErrors(self):
+        return len(self.errorMsgs) > 0
+
+    def printErrors(self):
+        if not self.hasErrors:
+            return "0 errors"
+        builder= ''
+        for i in self.errorMsgs:
+            builder+= '\n'
+        return builder
 
     def visitProgramAST(self, ctx: miParserParser.ProgramASTContext):
-        return super().visitProgramAST(ctx)
+        self.visit(ctx.singleCommand)
+        return None
+        #return super().visitProgramAST(ctx)
 
-    def visitStatement(self, ctx: miParserParser.StatementContext):
-        return super().visitStatement(ctx)
+    """def visitStatement(self, ctx: miParserParser.StatementContext):
+        self.visit(ctx.singleCommand(0))
+        for i in range (1,ctx.singleCommand().size()-1):   #Como poner el <=
+                                                           #Filtrar?
+            self.visit(ctx.singleCommand(i))
+        return None
+        #return super().visitStatement(ctx)
+    """
+
+    def visitDefST(self, ctx: miParserParser.DefSTContext):
+        #Adaptado del visitLetSC
+
+        self.laTabla.openScope()
+        self.visit(ctx.declaration)
+        self.visit(ctx.singleCommand)
+        self.laTabla.closeScope()
+        return None
+
+        #return super().visitDefST(ctx)
+
+    def visitIfST(self, ctx: miParserParser.IfSTContext):
+        return None
+        #return super().visitIfST(ctx)
+
+    def visitReturnST(self, ctx: miParserParser.ReturnSTContext):
+        return None
+        #return super().visitReturnST(ctx)
+
+    def visitPrintST(self, ctx: miParserParser.PrintSTContext):
+        return super().visitPrintST(ctx)
+        """No sabemos adaptarlo"""
+
+    def visitWhileST(self, ctx: miParserParser.WhileSTContext):
+        return None
+        #return super().visitWhileST(ctx)
+
+    def visitForST(self, ctx: miParserParser.ForSTContext):
+        #Adaptado del visitBlockSC
+        self.visit(ctx.command)
+        return None
+        #return super().visitForST(ctx)
+
+    def visitAssignST(self, ctx: miParserParser.AssignSTContext):
+        #Adaptado del visitAssignSC
+        tipoExpr= self.visit(ctx.expression)
+        e= self.visit(ctx.ident)
+        if e!=None:
+            if tipoExpr!= -1:
+                if e.type != tipoExpr:
+                    self.errorMsgs.append("tipos incompatibles en asignacion")
+        else:
+            self.errorMsgs.append("el id no esta declarado")
+        return None
+
+        #return super().visitAssignST(ctx)
+
+    def visitFunctionST(self, ctx: miParserParser.FunctionSTContext):
+        #Adaptado del visitCallSC
+        self.visit((ctx.functionCallStatement))
+        return None
+        #return super().visitFunctionST(ctx)
+
+    def visitExpressionST(self, ctx: miParserParser.ExpressionSTContext):
+        return super().visitExpressionST(ctx)
+        """No sabemos adaptarlo"""
 
     def visitDefStatementAST(self, ctx: miParserParser.DefStatementASTContext):
         return super().visitDefStatementAST(ctx)
+    """No sabemos adaptarlo"""
 
     def visitArgListAST(self, ctx: miParserParser.ArgListASTContext):
-        return super().visitArgListAST(ctx)
+        #Adaptado del paramDecls
+        self.visit(ctx.idDeclaration(0))
+        for i in range(1,ctx.idDeclaration.size()-1):
+            self.visit(ctx.idDeclaration(i))
+        return ctx.idDeclaration
+        #return super().visitArgListAST(ctx)
 
     def visitMoreArgsAST(self, ctx: miParserParser.MoreArgsASTContext):
         return super().visitMoreArgsAST(ctx)
+    """No sabemos adaptarlo"""
 
     def visitIfStatementAST(self, ctx: miParserParser.IfStatementASTContext):
         return super().visitIfStatementAST(ctx)
@@ -35,6 +124,7 @@ class AContextual(miParserVisitor):
 
     def visitAssignStatementAST(self, ctx: miParserParser.AssignStatementASTContext):
         # poner la tabla aquí
+        self.laTabla
         print(ctx.IDENTIFIER().symbol.text)
         return super().visitAssignStatementAST(ctx)
 
