@@ -69,11 +69,6 @@ class miParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by miParserParser#moreArgsAST.
-    def visitMoreArgsAST(self, ctx:miParserParser.MoreArgsASTContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by miParserParser#ifStatementAST.
     def visitIfStatementAST(self, ctx:miParserParser.IfStatementASTContext):
         return self.visitChildren(ctx)

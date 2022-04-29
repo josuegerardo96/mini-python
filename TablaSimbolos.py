@@ -6,24 +6,22 @@ from antlr4.error.ErrorListener import ErrorListener
 
 
 class TablaSimbolos:
-
     class Ident:
         tok: Token
         def __init__(self, t,  p, im, decl, nivelActual):
             self.tok=t
             self.nivel = nivelActual
-            self.valor=0
             self.params=p
             self.isMethod=im
             self.declCtx=decl
 
-    def __int__(self):
-        self.tabla=[]
-        self.nivelActual=-1
+    def __init__(self):
+        self.tabla = []
+        self.nivelActual = -1
 
-    def insertar(self,id,p,im,decl):
+    def insertar(self, id: object, p: object, im: object, decl: object) -> object:
         i = TablaSimbolos.Ident(id,p,im,decl, self.nivelActual)
-        p.insert(0,i)
+        self.tabla.insert(0,i)
 
     def buscar(self, nombre):
         for i in self.tabla:
@@ -32,7 +30,7 @@ class TablaSimbolos:
         return None
 
     def openScope(self):
-        self.nivelActual= self.nivelActual+1
+        self.nivelActual+=1
 
 
     def closeScope(self):

@@ -39,8 +39,6 @@ defStatement: DEF IDENTIFIER PIZQ (argList?) PDER DOSPUNT sequence              
 
 argList: IDENTIFIER (COMA IDENTIFIER)*      #argListAST;
 
-moreArgs: (COMA IDENTIFIER)*                #moreArgsAST;
-
 ifStatement: IF expression DOSPUNT sequence (ELSE DOSPUNT sequence)?                         #ifStatementAST;
 
 whileStatement: WHILE expression DOSPUNT sequence                                            #whileStatementAST;
@@ -150,7 +148,7 @@ fragment ESCAPESEQUENCE 	:	'\\' [btnfr"'\\];
 
 
 
-NEWLINE: ('\r'? '\n' (' ' | '\t')*); //For tabs just switch out ' '* with '\t'*
+NEWLINE : ('\r'? '\n' (' ' | '\t')* ); //For tabs just switch out ' '* with '\t'*
 SINGCOMMENT: '#' ~[\r\n\f]*->skip;
 WS  :   [ +\r\n\t] -> skip ;
 
