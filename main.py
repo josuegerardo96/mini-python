@@ -43,6 +43,7 @@ def main():
     v.visit(tree)
     v2= codeGen()
     generar_bytecode(v2.visit(tree))
+    # meter el nombre del archivo
     v.printErrors()
     #os.system("MiniPy bytecode.txt")
 

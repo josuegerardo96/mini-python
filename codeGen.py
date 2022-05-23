@@ -100,8 +100,10 @@ class codeGen(miParserVisitor):
         if (ctx.IDENTIFIER().getText() == "Main"):
             self.generate("END", None)
         else:
-            self.generate("RETURN", None)
+            if(1 == 1): # Si la bandera de return no está activada entonces HAGA ESTO
+                self.generate("RETURN", None)
         self.variablesLocalesDefinidas = []
+        # Poner la bandera en false
         return None
 
 
@@ -158,6 +160,7 @@ class codeGen(miParserVisitor):
     def visitReturnStatementAST(self, ctx:miParserParser.ReturnStatementASTContext):
         #return super().visitReturnStatementAST(ctx)
         self.visit(ctx.expression())
+        # llego aqui porque en el codigo fuente alguien puso un return
         self.generate("RETURN_VALUE", None)
         return None
 
@@ -257,7 +260,7 @@ class codeGen(miParserVisitor):
 
         #self.visit(ctx.getChild(0)) pasar esto al otro visit y luego tiene que llamar a esta función
         # actualizar indices ?
-        i = 1
+        """i = 1
         while i < len(ctx.children):
             oper = ctx.children[i]
             i += 1
@@ -268,7 +271,7 @@ class codeGen(miParserVisitor):
                 self.generate("BINARY_SUBSTRACT", None)
             i += 1
 
-        return None
+        return None"""
 
 
     # Visit a parse tree produced by miParserParser#multiplicationExpressionAST.
