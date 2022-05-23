@@ -255,7 +255,8 @@ class codeGen(miParserVisitor):
     def visitAdditionFactorAST(self, ctx:miParserParser.AdditionFactorASTContext):
         #return super().visitAdditionExpressionAST(ctx)
 
-        """self.visit(ctx.getChild(0))
+        #self.visit(ctx.getChild(0)) pasar esto al otro visit y luego tiene que llamar a esta función
+        # actualizar indices ?
         i = 1
         while i < len(ctx.children):
             oper = ctx.children[i]
@@ -267,7 +268,7 @@ class codeGen(miParserVisitor):
                 self.generate("BINARY_SUBSTRACT", None)
             i += 1
 
-        return None"""
+        return None
 
 
     # Visit a parse tree produced by miParserParser#multiplicationExpressionAST.
