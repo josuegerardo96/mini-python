@@ -1,3 +1,5 @@
+# Nuestro archivo de pruebas que creamos
+
 def function(rage):
     x=10
     return 0
@@ -22,3 +24,9 @@ r(5,8)
 n+5
 
 d= [1,2,3]
+
+3[2]
+
+"hola"[x]
+
+'a'(3,5)

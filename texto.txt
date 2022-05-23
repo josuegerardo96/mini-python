@@ -1,0 +1,5 @@
+def function1(n1,n2):
+    print("Resta de 22 y 2: ")
+    result = n1-n2
+    print(result)
+    return result
